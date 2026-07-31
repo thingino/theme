@@ -1,0 +1,38 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # The build has no dependencies, so there is nothing to install. This is
+      # the whole check: rebuild from src/ and fail if the committed dist/
+      # differs, which is what stops a hand-edited src/ shipping without its
+      # rebuilt bundle.
+      - name: dist/ is in sync with src/
+        run: node scripts/build.mjs --check
+
+      - name: tokens.json parses and is complete
+        run: |
+          node -e '
+            const { tokens } = require("./dist/tokens.json");
+            const need = ["--th-bg","--th-accent","--th-ink","--th-line","--th-crit","--th-sans"];
+            const missing = need.filter(k => !(k in tokens));
+            if (missing.length) { console.error("missing tokens:", missing.join(", ")); process.exit(1); }
+            const bad = Object.entries(tokens).filter(([k,v]) => !v.trim());
+            if (bad.length) { console.error("empty tokens:", bad.map(([k])=>k).join(", ")); process.exit(1); }
+            console.log(Object.keys(tokens).length + " tokens OK");
+          '
