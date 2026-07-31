@@ -14,6 +14,7 @@ import { createServer } from "node:http";
 import { readFileSync, existsSync, statSync } from "node:fs";
 import { join, extname, normalize } from "node:path";
 import { vendor, ROOT } from "./vendor.mjs";
+import { stamp } from "./stamp.mjs";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -66,7 +67,13 @@ createServer((req, res) => {
     "content-type": TYPES[extname(file)] || "application/octet-stream",
     "cache-control": "no-store",
   });
-  res.end(readFileSync(file));
+  /* Stamped on the way out, the same substitution the Pages build does, so
+     the local page and the published one differ in nothing at all. */
+  res.end(
+    extname(file) === ".html"
+      ? stamp(readFileSync(file, "utf8"))
+      : readFileSync(file),
+  );
 }).listen(port, () => {
   console.log("preview: http://localhost:%d/", port);
 });

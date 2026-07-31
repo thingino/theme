@@ -15,9 +15,13 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { rmSync, mkdirSync, cpSync, existsSync, readdirSync, statSync } from "node:fs";
+import {
+  rmSync, mkdirSync, cpSync, existsSync, readdirSync, statSync,
+  readFileSync, writeFileSync,
+} from "node:fs";
 import { join, relative } from "node:path";
 import { vendor, ROOT } from "./vendor.mjs";
+import { stamp, buildSha } from "./stamp.mjs";
 
 const SITE = join(ROOT, "_site");
 
@@ -26,7 +30,11 @@ execFileSync(process.execPath, [join(ROOT, "scripts", "build.mjs")], { stdio: "i
 rmSync(SITE, { recursive: true, force: true });
 mkdirSync(SITE, { recursive: true });
 
-cpSync(join(ROOT, "preview", "index.html"), join(SITE, "index.html"));
+const sha = buildSha();
+writeFileSync(
+  join(SITE, "index.html"),
+  stamp(readFileSync(join(ROOT, "preview", "index.html"), "utf8"), sha),
+);
 cpSync(join(ROOT, "dist"), join(SITE, "dist"), { recursive: true });
 
 if (!vendor(join(SITE, "vendor"))) {
@@ -67,8 +75,9 @@ let bytes = 0;
 })(SITE);
 
 console.log(
-  "site: %s ready, %d files, %d KiB",
+  "site: %s ready at %s, %d files, %d KiB",
   relative(ROOT, SITE),
+  sha,
   files,
   Math.round(bytes / 1024),
 );

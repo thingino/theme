@@ -122,7 +122,9 @@
   <h2 class="sec">Footer</h2>
   <p class="mt-2 small text-center muted" id="version-text">
     <a href="https://github.com/thingino/theme" target="_blank" rel="noopener" class="link-secondary text-decoration-none">thingino-theme</a>
-    <span id="version-num">v0.1.0-0000000</span>
+    <!-- "dev" is the honest answer for an unstamped working copy; the local
+         server and the Pages build both swap in the real short sha. -->
+    <span id="version-num" data-sha="dev"></span>
   </p>
 
 </div>
@@ -153,7 +155,8 @@ fetch("dist/tokens.json").then(r => r.json()).then(({ version, tokens }) => {
   document.getElementById("tokencount").textContent =
     n + " colour tokens, theme v" + version + ". Faces: " +
     getComputedStyle(document.documentElement).getPropertyValue("--th-sans").trim();
-  document.getElementById("version-num").textContent = "v" + version + "-preview";
+  const vn = document.getElementById("version-num");
+  vn.textContent = "v" + version + "-" + vn.dataset.sha;
 }).catch(() => {
   document.getElementById("tokencount").textContent =
     "tokens.json not readable. Serve the repo over http (node scripts/preview.mjs) rather than opening the file directly.";
