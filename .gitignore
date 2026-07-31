@@ -1,0 +1,5 @@
+node_modules/
+# Bootstrap and Montserrat for the local preview page. Copied in from a sibling
+# app checkout by scripts/preview.mjs, never committed: the apps own that pin,
+# not the theme.
+preview/vendor/

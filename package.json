@@ -1,0 +1,28 @@
+{
+  "name": "@thingino/theme",
+  "version": "0.1.0",
+  "description": "Shared design tokens and CSS for the thingino web apps",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thingino/theme.git"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": "./dist/thingino-theme.css",
+    "./theme.css": "./dist/thingino-theme.css",
+    "./base.css": "./dist/thingino-base.css",
+    "./tokens.css": "./dist/thingino-tokens.css",
+    "./aliases.css": "./dist/thingino-aliases.css",
+    "./tokens.json": "./dist/tokens.json",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/build.mjs --check"
+  }
+}

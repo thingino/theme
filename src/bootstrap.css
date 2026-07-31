@@ -1,0 +1,110 @@
+/* thingino theme: Bootstrap 5.3 bridge.
+ *
+ * Skins a stock Bootstrap 5.3 dark build (`data-bs-theme="dark"`) into the
+ * thingino look. Only for apps that ship Bootstrap: the image builder, verify
+ * and webflash. buildscope has no framework and loads tokens + components
+ * alone.
+ *
+ * LOAD ORDER: after bootstrap.min.css. The two rules that must survive being
+ * loaded BEFORE it (some builds inline their page CSS ahead of the bundle) are
+ * written at a specificity that wins either way, and say so where they sit.
+ *
+ * DO NOT set --bs-body-bg here. These apps override the PAGE background only,
+ * which leaves cards, modals and dropdowns on Bootstrap's own #212529 grey.
+ * Retinting --bs-body-bg would flatten the card off the page and is the one
+ * change that silently restyles all three apps at once.
+ */
+
+/* `html:root` is 0,1,1 and beats Bootstrap's own `:root { --bs-font-sans-serif }`
+   at 0,1,0, so the face holds whichever order the two files land in. */
+html:root {
+  --bs-font-sans-serif: var(--th-sans);
+}
+
+/* The app shell every thingino page uses: full height, single centred column.
+   `html body` is 0,0,2 and beats Bootstrap reboot's `body { background-color }`
+   at 0,0,1 regardless of order. */
+html body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--th-bg);
+}
+
+/* ---------- accents on stock Bootstrap parts ---------- */
+
+.card-title {
+  color: var(--th-accent) !important;
+}
+
+code {
+  color: var(--th-accent);
+}
+
+/* Bootstrap's dark theme puts white text on bg-warning, which is unreadable on
+   the yellow. These apps use the badge for busy states (Reading/Writing). */
+.badge.bg-warning {
+  color: var(--th-on-accent) !important;
+}
+
+/* ---------- the thingino button ----------
+   Solid accent, dark text. This is the primary action; a page should have one. */
+.btn-thingino {
+  background: var(--th-accent);
+  border-color: var(--th-accent);
+  color: var(--th-on-accent);
+  font-weight: 600;
+}
+
+.btn-thingino:hover,
+.btn-thingino:focus {
+  background: var(--th-accent-hover);
+  border-color: var(--th-accent-hover);
+  color: var(--th-on-accent);
+}
+
+/* Disabled reads as clearly OFF: flat muted grey, not a dimmed accent. Bootstrap
+   would only fade the fill, which on a bright accent still reads as clickable.
+   `opacity:1` undoes that fade so the flat colours are what shows.
+   `.th-off` is the same treatment for buttons that are not .btn-thingino (a
+   solid btn-warning, say), which otherwise dim to a slightly darker yellow. */
+.btn-thingino:disabled,
+.btn-thingino.disabled,
+.th-off:disabled,
+.th-off.disabled {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-color: var(--th-line) !important;
+  color: var(--th-ink-4) !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+}
+
+/* ---------- extra alert level ----------
+   Bootstrap ships no purple, so the "important" notice level brings its own.
+   It goes through Bootstrap's own alert variables, so the box is identical in
+   shape to the stock variants sitting next to it. */
+.alert-purple {
+  --bs-alert-color: #c8a2ff;
+  --bs-alert-bg: #241a35;
+  --bs-alert-border-color: #4b357a;
+}
+
+/* ---------- narrow screens ----------
+   Tighten the card's own padding so the content, not the chrome, gets the
+   width. App-specific reflow (stacking button rows, shrinking a log) stays in
+   the app. */
+@media (max-width: 576px) {
+  body {
+    padding: 0.5rem !important;
+  }
+  .card-header {
+    padding: 0.6rem 0.75rem;
+  }
+  .card-body,
+  .card-footer {
+    padding: 0.75rem;
+  }
+}

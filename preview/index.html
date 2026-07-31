@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>thingino theme preview</title>
+<!-- Inline so the page makes no request the theme did not ask for: a bare
+     favicon 404 is the kind of console noise that hides a real one. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23ff8c00'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="vendor/bootstrap.min.css">
+<link rel="stylesheet" href="vendor/bootstrap-icons.min.css">
+<link rel="stylesheet" href="vendor/montserrat.css">
+<!-- The theme goes last, after Bootstrap. This is the load order every
+     consuming app must use. -->
+<link rel="stylesheet" href="../dist/thingino-theme.css">
+<style>
+  /* Preview page furniture only. Nothing here belongs in the theme. */
+  .sheet { width: 100%; max-width: 900px; padding: 1rem; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: .5rem; }
+  .sw { border: 1px solid var(--th-line); border-radius: var(--th-radius); overflow: hidden; }
+  .sw-chip { height: 44px; }
+  .sw-meta { padding: .35rem .5rem; font-family: var(--th-mono); font-size: .7rem; line-height: 1.4; }
+  .sw-name { color: var(--th-ink); display: block; word-break: break-all; }
+  .sw-val { color: var(--th-ink-3); }
+  h2.sec { font-size: .95rem; color: var(--th-accent); margin: 1.75rem 0 .6rem; letter-spacing: .03em; }
+</style>
+</head>
+<body class="p-3 help-on">
+
+<div class="sheet">
+
+  <div id="novendor" class="alert alert-danger d-none">
+    <strong>Bootstrap is missing.</strong> Run <code>node scripts/preview.mjs</code>
+    from the repo root: it copies Bootstrap and Montserrat in from a sibling app
+    checkout and serves this page.
+  </div>
+
+  <h1 class="h5 card-title mb-1">thingino theme</h1>
+  <p class="muted small mb-0">
+    Everything the theme draws, on one page. Change a token in
+    <code>src/tokens.css</code>, rebuild, reload: whatever moves here moves in
+    all four apps.
+  </p>
+
+  <h2 class="sec">Tokens</h2>
+  <div class="swatches" id="swatches"></div>
+  <p class="muted small mt-2" id="tokencount"></p>
+
+  <h2 class="sec">Buttons</h2>
+  <div class="card">
+    <div class="card-body d-flex flex-wrap gap-2 align-items-center">
+      <button class="btn btn-thingino" data-help="The primary action.">Primary action</button>
+      <button class="btn btn-thingino" disabled>Primary, disabled</button>
+      <button class="btn btn-warning th-off">Secondary (.th-off)</button>
+      <button class="btn btn-warning th-off" disabled>Secondary, disabled</button>
+      <button class="btn btn-outline-secondary" id="btn-help">?</button>
+      <button class="btn btn-outline-secondary help-active" id="btn-help-2">? active</button>
+    </div>
+  </div>
+
+  <h2 class="sec">Card, badges, code</h2>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title h6 mb-0">Card header title</span>
+    </div>
+    <div class="card-body">
+      <p class="mb-2">Body text at <code>--th-ink</code>, with <code>inline code</code> in the accent.</p>
+      <div class="d-flex flex-wrap gap-2">
+        <span class="badge bg-warning">Writing</span>
+        <span class="badge bg-success">Done</span>
+        <span class="badge bg-danger">Failed</span>
+        <span class="badge bg-secondary">Idle</span>
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-end gap-2">
+      <button class="btn btn-sm btn-outline-secondary">Cancel</button>
+      <button class="btn btn-sm btn-thingino">Go</button>
+    </div>
+  </div>
+
+  <h2 class="sec">Alerts</h2>
+  <div class="alert alert-primary py-2 mb-2">primary</div>
+  <div class="alert alert-success py-2 mb-2">success</div>
+  <div class="alert alert-warning py-2 mb-2">warning</div>
+  <div class="alert alert-danger py-2 mb-2">danger</div>
+  <div class="alert alert-purple py-2 mb-2">purple, the theme's own extra level</div>
+
+  <h2 class="sec">Drop zone and file info</h2>
+  <div class="card"><div class="card-body">
+    <div id="dropzone" class="mb-2">
+      <i class="bi bi-file-earmark-binary"></i>
+      Drop a firmware image here, or click to pick one
+    </div>
+    <div class="file-info">
+      <span class="label">file</span>
+      <span class="value">thingino-t31x-abc123.bin</span>
+      <span class="label ms-2">size</span>
+      <span class="value">8388608</span>
+    </div>
+  </div></div>
+
+  <h2 class="sec">Log console</h2>
+  <div id="log"><span class="dim">12:00:01</span> <span class="info">opening device a108:c309</span>
+<span class="dim">12:00:01</span> <span class="info">alt 0: nor, 16384 KiB</span>
+<span class="dim">12:00:02</span> <span class="ok">erase complete</span>
+<span class="dim">12:00:07</span> <span class="warn">block 214 needed a retry</span>
+<span class="dim">12:00:09</span> <span class="error">write failed: LIBUSB_ERROR_OVERFLOW</span>
+<span class="dim">12:00:09</span> <span class="debug">bulk out stalled, resetting endpoint</span></div>
+
+  <h2 class="sec">Help balloon</h2>
+  <p class="muted small">Rendered pinned open below; in an app it follows the pointer over any <code>[data-help]</code> element while help is on.</p>
+  <div style="position:relative; height:110px;">
+    <div class="help-balloon show" style="position:absolute; top:18px; left:12px;">
+      The balloon is deliberately light on the dark UI, so an opt-in hint never
+      reads as part of the app's own chrome.
+    </div>
+    <div class="help-balloon show above" style="position:absolute; top:18px; left:320px;">
+      Flipped above its anchor: the tail moves to the bottom edge.
+    </div>
+  </div>
+
+  <h2 class="sec">Footer</h2>
+  <p class="mt-2 small text-center muted" id="version-text">
+    <a href="https://github.com/thingino/theme" target="_blank" rel="noopener" class="link-secondary text-decoration-none">thingino-theme</a>
+    <span id="version-num">v0.1.0-0000000</span>
+  </p>
+
+</div>
+
+<script>
+// Swatches are generated from the built tokens.json, so this page can never
+// drift from the token set the apps actually get.
+fetch("../dist/tokens.json").then(r => r.json()).then(({ version, tokens }) => {
+  const box = document.getElementById("swatches");
+  const isColor = v => /^#|^rgb|^hsl/.test(v);
+  let n = 0;
+  for (const [name, value] of Object.entries(tokens)) {
+    if (!isColor(value)) continue;   // faces and radii are shown by the samples below
+    n++;
+    const el = document.createElement("div");
+    el.className = "sw";
+    const chip = document.createElement("div");
+    chip.className = "sw-chip";
+    chip.style.background = value;
+    const meta = document.createElement("div");
+    meta.className = "sw-meta";
+    meta.innerHTML = '<span class="sw-name"></span><span class="sw-val"></span>';
+    meta.querySelector(".sw-name").textContent = name;
+    meta.querySelector(".sw-val").textContent = value;
+    el.append(chip, meta);
+    box.append(el);
+  }
+  document.getElementById("tokencount").textContent =
+    n + " colour tokens, theme v" + version + ". Faces: " +
+    getComputedStyle(document.documentElement).getPropertyValue("--th-sans").trim();
+  document.getElementById("version-num").textContent = "v" + version + "-preview";
+}).catch(() => {
+  document.getElementById("tokencount").textContent =
+    "tokens.json not readable. Serve the repo over http (node scripts/preview.mjs) rather than opening the file directly.";
+});
+
+// Bootstrap present? Its reboot sets a monospace face on <code>; if the
+// stylesheet never loaded, the card has no background at all.
+addEventListener("load", () => {
+  const probe = document.querySelector(".card");
+  const bg = getComputedStyle(probe).backgroundColor;
+  if (bg === "rgba(0, 0, 0, 0)" || bg === "transparent") {
+    document.getElementById("novendor").classList.remove("d-none");
+  }
+});
+</script>
+</body>
+</html>

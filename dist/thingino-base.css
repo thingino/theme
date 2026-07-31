@@ -1,0 +1,307 @@
+/*! thingino theme v0.1.0
+ *
+ * GENERATED FILE, DO NOT EDIT. Built from src/tokens.css + src/components.css.
+ * Source and issues: https://github.com/thingino/theme
+ */
+/* thingino theme: design tokens.
+ *
+ * The single source of truth for every colour, face and radius the thingino
+ * web apps draw with. Nothing here selects anything or paints anything: it
+ * only declares custom properties, so this file is safe to load first in any
+ * app, framework or not.
+ *
+ * Naming: every token is `--th-*`. Apps that predate the prefix (buildscope
+ * uses bare `--bg`, `--accent`, ...) can load `thingino-aliases.css` on top to
+ * get the bare names pointed at these, without touching their own rules.
+ *
+ * The surfaces are GitHub's dark ramp, which is where these apps started; the
+ * accent is `darkorange`, spelled as its hex here (the CSS named colour
+ * `darkorange` is exactly #ff8c00, so old rules using the keyword and new ones
+ * using the token render identically).
+ */
+
+:root {
+  /* ---------- surfaces ---------- */
+  --th-bg: #0d1117;         /* page background */
+  --th-surface-1: #161b22;  /* raised panel */
+  --th-surface-2: #21262d;  /* control / progress track */
+  --th-track: #010409;      /* recessed: log console, code wells */
+  --th-line: #30363d;       /* borders */
+  --th-hairline: #21262d;   /* internal rules, table separators */
+
+  /* ---------- ink ---------- */
+  --th-ink: #c9d1d9;        /* body text */
+  --th-ink-bright: #e6edf3; /* emphasis */
+  --th-ink-2: #8b949e;      /* muted / secondary */
+  --th-ink-3: #6e7681;      /* labels, axis */
+  --th-ink-4: #484f58;      /* disabled, dim log lines */
+
+  /* ---------- accent ---------- */
+  --th-accent: #ff8c00;       /* === CSS `darkorange` */
+  --th-accent-hover: #ff9e2c;
+  --th-on-accent: #0d1117;    /* text drawn ON the accent */
+
+  /* Link colour for the shared footer. This is Bootstrap's `--bs-secondary`,
+     which its dark mode does NOT override, so it is pinned here rather than
+     inherited: apps without Bootstrap must match it. */
+  --th-link: #6c757d;
+  --th-link-hover: #565e64;
+
+  /* ---------- status ---------- */
+  --th-good: #3fb950;
+  --th-warn: #d29922;
+  --th-serious: #f0883e;
+  --th-crit: #f85149;
+
+  /* ---------- categorical data palette ----------
+     For charts and format/type chips. Validated for the three common colour
+     vision deficiencies against --th-surface-1. Use in listed order; do not
+     reach for the status colours above to mean "category N", they carry a
+     meaning of their own. */
+  --th-data-blue: #3987e5;
+  --th-data-orange: #d95926;
+  --th-data-aqua: #199e70;
+  --th-data-yellow: #c98500;
+  --th-data-magenta: #d55181;
+  --th-data-green: #008300;
+
+  /* ---------- help balloons ----------
+     Deliberately inverted: a warm paper note over the dark UI, so an opt-in
+     hint never reads as part of the app's own chrome. */
+  --th-balloon-bg: #fffdf0;
+  --th-balloon-ink: #1a1a1a;
+  --th-balloon-line: #c9bfa0;
+
+  /* ---------- type ----------
+     Montserrat is NOT bundled here. Each app ships its own subsets (via
+     @fontsource or a vendored montserrat.css) so it only downloads the scripts
+     it renders. Montserrat carries no Arabic or CJK glyphs, hence the named
+     fallbacks before the generic. */
+  --th-sans: "Montserrat", "Noto Sans Arabic", "Noto Sans CJK SC", "Noto Sans",
+    system-ui, sans-serif;
+  --th-mono: ui-monospace, "Cascadia Code", "JetBrains Mono", Menlo, Consolas,
+    "DejaVu Sans Mono", monospace;
+  /* Log consoles specifically: a fixed narrow face, so wrapped hex dumps and
+     progress lines column up the same way on every machine. */
+  --th-mono-console: "Courier New", monospace;
+
+  /* ---------- geometry ---------- */
+  --th-radius: 6px;
+  --th-radius-lg: 12px;
+}
+
+/* thingino theme: shared components, framework-neutral.
+ *
+ * Widgets that more than one thingino app draws the same way, expressed only
+ * in terms of the tokens. Nothing here depends on Bootstrap, so buildscope
+ * (which has no framework) can load this file too.
+ *
+ * Selector policy: the PRIMARY selector is the `.th-*` name, and the class or
+ * id the existing apps already carry is grouped alongside it. That is what
+ * makes adoption a single <link> with no markup churn. When an app's markup
+ * moves to the `.th-*` name, its legacy selector can be dropped from the group
+ * here.
+ */
+
+/* ---------- muted text ----------
+   `!important` is inherited from the apps' own rules, where it exists to beat
+   Bootstrap's `.text-*` utilities landing on the same element. */
+.th-muted,
+.muted {
+  color: var(--th-ink-2) !important;
+}
+
+/* ---------- log console ----------
+   Height is layout, not theme, so it stays a knob: verify sets 300px, webflash
+   406px. Set --th-console-height on the element to pick. */
+.th-console,
+#log {
+  height: var(--th-console-height, 300px);
+  overflow-y: auto;
+  font-family: var(--th-mono-console);
+  font-size: var(--th-console-size, 0.78rem);
+  line-height: var(--th-console-leading, 1.5);
+  white-space: pre-wrap;
+  word-break: break-all;
+  background: var(--th-track);
+  border: 1px solid var(--th-line);
+  border-radius: var(--th-radius);
+  padding: 0.6rem;
+}
+
+.th-console .info,
+#log .info {
+  color: var(--th-ink);
+}
+.th-console .ok,
+#log .ok {
+  color: var(--th-good);
+}
+.th-console .warn,
+#log .warn {
+  color: var(--th-accent);
+}
+.th-console .error,
+#log .error {
+  color: var(--th-crit);
+}
+.th-console .dim,
+.th-console .debug,
+#log .dim,
+#log .debug {
+  color: var(--th-ink-4);
+}
+
+/* ---------- file info line ----------
+   Label/value pair under a picked file: grey label, accent monospace value. */
+.th-file-info,
+.file-info {
+  font-size: 0.85rem;
+  color: var(--th-ink-2);
+}
+
+.th-file-info .label,
+.file-info .label {
+  color: var(--th-ink-2);
+}
+
+.th-file-info .value,
+.file-info .value {
+  color: var(--th-accent);
+  font-family: var(--th-mono);
+}
+
+/* The real input is always replaced by a styled label or button. */
+.th-file-input,
+input[type="file"] {
+  display: none;
+}
+
+/* ---------- drop zone ---------- */
+.th-dropzone,
+#dropzone {
+  border: 2px dashed var(--th-line);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 2.2rem 1rem;
+  text-align: center;
+  color: var(--th-ink-2);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.th-dropzone:hover,
+.th-dropzone.drag,
+#dropzone:hover,
+#dropzone.drag {
+  border-color: var(--th-accent);
+  background: rgba(255, 140, 0, 0.05);
+  color: var(--th-ink);
+}
+
+/* Bootstrap Icons glyph inside the zone, sized up as the zone's own mark. */
+.th-dropzone .bi,
+#dropzone .bi {
+  font-size: 2rem;
+  color: var(--th-accent);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* ---------- footer / version line ----------
+   Every app closes with `<repo-name> v<version>-<short sha>`, the repo name
+   being the link. No rule above it, centred, one step down in grey. */
+.th-foot,
+.foot,
+#version-text {
+  margin-top: 0.5rem;
+  padding-top: 0;
+  border-top: none;
+  font-family: var(--th-sans);
+  font-size: 0.875rem;
+  text-align: center;
+  color: var(--th-ink-2);
+}
+
+.th-foot a,
+.foot-link,
+#version-text a {
+  color: var(--th-link);
+  text-decoration: none;
+}
+
+.th-foot a:hover,
+.th-foot a:focus,
+.foot-link:hover,
+.foot-link:focus,
+#version-text a:hover,
+#version-text a:focus {
+  color: var(--th-link-hover);
+  text-decoration: none;
+}
+
+/* ---------- opt-in help balloons ----------
+   Off by default. The app puts `.help-on` on <body> (a `?` toggle, or a
+   Settings switch) and any element carrying `data-help` becomes hoverable;
+   positioning is the app's JS, this is only the look. */
+body.help-on [data-help] {
+  cursor: help;
+}
+
+.th-help-toggle.help-active,
+#btn-help.help-active {
+  color: #fff;
+  background-color: var(--th-link);
+  border-color: var(--th-link);
+}
+
+.th-help-balloon,
+.help-balloon {
+  position: fixed;
+  z-index: 1100;
+  max-width: 260px;
+  background: var(--th-balloon-bg);
+  color: var(--th-balloon-ink);
+  border: 1px solid var(--th-balloon-line);
+  border-radius: var(--th-radius-lg);
+  padding: 0.5rem 0.7rem;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.28);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.th-help-balloon.show,
+.help-balloon.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Tail, drawn as a rotated square sharing two of the balloon's borders. */
+.th-help-balloon::before,
+.help-balloon::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 18px;
+  width: 12px;
+  height: 12px;
+  background: var(--th-balloon-bg);
+  border-left: 1px solid var(--th-balloon-line);
+  border-top: 1px solid var(--th-balloon-line);
+  transform: rotate(45deg);
+}
+
+/* Balloon flipped above its anchor: tail moves to the bottom edge, so the two
+   lit borders swap to the opposite corner. */
+.th-help-balloon.above::before,
+.help-balloon.above::before {
+  top: auto;
+  bottom: -7px;
+  border-left: 0;
+  border-top: 0;
+  border-right: 1px solid var(--th-balloon-line);
+  border-bottom: 1px solid var(--th-balloon-line);
+}

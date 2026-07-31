@@ -1,0 +1,86 @@
+/* thingino theme: design tokens.
+ *
+ * The single source of truth for every colour, face and radius the thingino
+ * web apps draw with. Nothing here selects anything or paints anything: it
+ * only declares custom properties, so this file is safe to load first in any
+ * app, framework or not.
+ *
+ * Naming: every token is `--th-*`. Apps that predate the prefix (buildscope
+ * uses bare `--bg`, `--accent`, ...) can load `thingino-aliases.css` on top to
+ * get the bare names pointed at these, without touching their own rules.
+ *
+ * The surfaces are GitHub's dark ramp, which is where these apps started; the
+ * accent is `darkorange`, spelled as its hex here (the CSS named colour
+ * `darkorange` is exactly #ff8c00, so old rules using the keyword and new ones
+ * using the token render identically).
+ */
+
+:root {
+  /* ---------- surfaces ---------- */
+  --th-bg: #0d1117;         /* page background */
+  --th-surface-1: #161b22;  /* raised panel */
+  --th-surface-2: #21262d;  /* control / progress track */
+  --th-track: #010409;      /* recessed: log console, code wells */
+  --th-line: #30363d;       /* borders */
+  --th-hairline: #21262d;   /* internal rules, table separators */
+
+  /* ---------- ink ---------- */
+  --th-ink: #c9d1d9;        /* body text */
+  --th-ink-bright: #e6edf3; /* emphasis */
+  --th-ink-2: #8b949e;      /* muted / secondary */
+  --th-ink-3: #6e7681;      /* labels, axis */
+  --th-ink-4: #484f58;      /* disabled, dim log lines */
+
+  /* ---------- accent ---------- */
+  --th-accent: #ff8c00;       /* === CSS `darkorange` */
+  --th-accent-hover: #ff9e2c;
+  --th-on-accent: #0d1117;    /* text drawn ON the accent */
+
+  /* Link colour for the shared footer. This is Bootstrap's `--bs-secondary`,
+     which its dark mode does NOT override, so it is pinned here rather than
+     inherited: apps without Bootstrap must match it. */
+  --th-link: #6c757d;
+  --th-link-hover: #565e64;
+
+  /* ---------- status ---------- */
+  --th-good: #3fb950;
+  --th-warn: #d29922;
+  --th-serious: #f0883e;
+  --th-crit: #f85149;
+
+  /* ---------- categorical data palette ----------
+     For charts and format/type chips. Validated for the three common colour
+     vision deficiencies against --th-surface-1. Use in listed order; do not
+     reach for the status colours above to mean "category N", they carry a
+     meaning of their own. */
+  --th-data-blue: #3987e5;
+  --th-data-orange: #d95926;
+  --th-data-aqua: #199e70;
+  --th-data-yellow: #c98500;
+  --th-data-magenta: #d55181;
+  --th-data-green: #008300;
+
+  /* ---------- help balloons ----------
+     Deliberately inverted: a warm paper note over the dark UI, so an opt-in
+     hint never reads as part of the app's own chrome. */
+  --th-balloon-bg: #fffdf0;
+  --th-balloon-ink: #1a1a1a;
+  --th-balloon-line: #c9bfa0;
+
+  /* ---------- type ----------
+     Montserrat is NOT bundled here. Each app ships its own subsets (via
+     @fontsource or a vendored montserrat.css) so it only downloads the scripts
+     it renders. Montserrat carries no Arabic or CJK glyphs, hence the named
+     fallbacks before the generic. */
+  --th-sans: "Montserrat", "Noto Sans Arabic", "Noto Sans CJK SC", "Noto Sans",
+    system-ui, sans-serif;
+  --th-mono: ui-monospace, "Cascadia Code", "JetBrains Mono", Menlo, Consolas,
+    "DejaVu Sans Mono", monospace;
+  /* Log consoles specifically: a fixed narrow face, so wrapped hex dumps and
+     progress lines column up the same way on every machine. */
+  --th-mono-console: "Courier New", monospace;
+
+  /* ---------- geometry ---------- */
+  --th-radius: 6px;
+  --th-radius-lg: 12px;
+}

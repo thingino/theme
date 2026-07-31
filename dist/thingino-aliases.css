@@ -1,0 +1,48 @@
+/*! thingino theme v0.1.0
+ *
+ * GENERATED FILE, DO NOT EDIT. Built from src/aliases.css.
+ * Source and issues: https://github.com/thingino/theme
+ */
+/* thingino theme: bare-name aliases. OPT-IN, load only if you need it.
+ *
+ * buildscope predates the `--th-` prefix and its ~1400 lines of rules all read
+ * bare names (`var(--bg)`, `var(--accent)`, ...). Loading this file after
+ * tokens.css points every one of those at the shared token, so buildscope
+ * adopts the theme with a single import and no edits to its own rules.
+ *
+ * Not part of thingino-theme.css: bare names like `--bg` and `--line` are
+ * grabby enough that an app should have to ask for them. New apps should use
+ * the `--th-` names directly and never load this.
+ */
+
+:root {
+  --bg: var(--th-bg);
+  --surface-1: var(--th-surface-1);
+  --surface-2: var(--th-surface-2);
+  --track: var(--th-track);
+  --line: var(--th-line);
+  --hairline: var(--th-hairline);
+
+  --ink: var(--th-ink);
+  --ink-bright: var(--th-ink-bright);
+  --ink-2: var(--th-ink-2);
+  --ink-3: var(--th-ink-3);
+
+  --accent: var(--th-accent);
+  --accent-hover: var(--th-accent-hover);
+
+  --blue: var(--th-data-blue);
+  --orange: var(--th-data-orange);
+  --aqua: var(--th-data-aqua);
+  --yellow: var(--th-data-yellow);
+  --magenta: var(--th-data-magenta);
+  --green: var(--th-data-green);
+
+  --good: var(--th-good);
+  --warn: var(--th-warn);
+  --serious: var(--th-serious);
+  --crit: var(--th-crit);
+
+  --sans: var(--th-sans);
+  --mono: var(--th-mono);
+}
