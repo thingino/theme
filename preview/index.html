@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="vendor/montserrat.css">
 <!-- The theme goes last, after Bootstrap. This is the load order every
      consuming app must use. -->
-<link rel="stylesheet" href="../dist/thingino-theme.css">
+<link rel="stylesheet" href="dist/thingino-theme.css">
 <style>
   /* Preview page furniture only. Nothing here belongs in the theme. */
   .sheet { width: 100%; max-width: 900px; padding: 1rem; }
@@ -130,7 +130,7 @@
 <script>
 // Swatches are generated from the built tokens.json, so this page can never
 // drift from the token set the apps actually get.
-fetch("../dist/tokens.json").then(r => r.json()).then(({ version, tokens }) => {
+fetch("dist/tokens.json").then(r => r.json()).then(({ version, tokens }) => {
   const box = document.getElementById("swatches");
   const isColor = v => /^#|^rgb|^hsl/.test(v);
   let n = 0;

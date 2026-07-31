@@ -1,0 +1,76 @@
+name: pages
+
+# Publishes preview/ to GitHub Pages: the live demo of everything the theme
+# draws. Rebuilt from src/ on every push that could change it, so the page
+# always shows what the theme currently is rather than what dist/ was when it
+# was last committed.
+#
+# The page needs Bootstrap, Bootstrap Icons and Montserrat, which this repo
+# deliberately does not vendor (the apps own that version pin). So the job
+# clones thingino-verify alongside and borrows the assets it actually ships,
+# which is also what scripts/preview.mjs does locally.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'dist/**'
+      - 'preview/**'
+      - 'scripts/**'
+      - 'package.json'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # Plain git rather than a checkout action: same speed, one less
+      # dependency in the supply chain. Both repos are public, so neither
+      # clone needs auth.
+      - name: clone
+        run: |
+          git clone --depth 1 --single-branch --no-tags \
+            --branch "${GITHUB_REF_NAME}" \
+            "https://github.com/${GITHUB_REPOSITORY}" theme
+
+      # Sibling checkout, where scripts/vendor.mjs looks for a donor. Blobless
+      # and sparse: the only thing wanted here is web/vendor.
+      - name: clone thingino-verify for its vendored assets
+        run: |
+          git clone --depth 1 --single-branch --no-tags \
+            --filter=blob:none --sparse \
+            https://github.com/thingino/thingino-verify thingino-verify
+          git -C thingino-verify sparse-checkout set web/vendor
+
+      # node is preinstalled on the runner and the build has no dependencies,
+      # so there is nothing to set up and nothing to install.
+      - name: build _site
+        working-directory: theme
+        run: |
+          node --version
+          node scripts/site.mjs
+
+      # No gh equivalent exists for any of the three below: the Pages artifact
+      # and deployment APIs need the Actions runtime token, which only the
+      # first-party actions can reach. Pinned by full commit SHA, matching the
+      # pins thingino-verify and buildscope already run.
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: theme/_site
+      - id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0

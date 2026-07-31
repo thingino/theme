@@ -1,9 +1,15 @@
 name: ci
 
+# Rebuilds the bundles from src/ and fails if the committed dist/ differs.
+# That is what stops a hand-edited src/ shipping without its rebuilt bundle,
+# and dist/ is committed precisely so an app can vendor one file without
+# needing node.
+
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -12,27 +18,54 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # Plain git rather than a checkout action: same speed, one less
+      # dependency in the supply chain. On a pull_request the merge ref is
+      # what should be tested, so clone the repo and fetch that ref.
+      - name: clone
+        run: |
+          git clone --depth 1 --single-branch --no-tags \
+            "https://github.com/${GITHUB_REPOSITORY}" repo
+          git -C repo fetch --depth 1 origin "${GITHUB_REF}"
+          git -C repo checkout --detach FETCH_HEAD
+          git -C repo log -1 --oneline
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      # The build has no dependencies, so there is nothing to install. This is
-      # the whole check: rebuild from src/ and fail if the committed dist/
-      # differs, which is what stops a hand-edited src/ shipping without its
-      # rebuilt bundle.
+      # node is preinstalled on the runner and the build has no dependencies.
       - name: dist/ is in sync with src/
-        run: node scripts/build.mjs --check
+        working-directory: repo
+        run: |
+          node --version
+          node scripts/build.mjs --check
 
       - name: tokens.json parses and is complete
+        working-directory: repo
         run: |
-          node -e '
-            const { tokens } = require("./dist/tokens.json");
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const { tokens } = JSON.parse(readFileSync("dist/tokens.json", "utf8"));
             const need = ["--th-bg","--th-accent","--th-ink","--th-line","--th-crit","--th-sans"];
-            const missing = need.filter(k => !(k in tokens));
-            if (missing.length) { console.error("missing tokens:", missing.join(", ")); process.exit(1); }
-            const bad = Object.entries(tokens).filter(([k,v]) => !v.trim());
-            if (bad.length) { console.error("empty tokens:", bad.map(([k])=>k).join(", ")); process.exit(1); }
+            const missing = need.filter((k) => !(k in tokens));
+            if (missing.length) throw new Error("missing tokens: " + missing.join(", "));
+            const empty = Object.entries(tokens).filter(([, v]) => !v.trim());
+            if (empty.length) throw new Error("empty tokens: " + empty.map(([k]) => k).join(", "));
             console.log(Object.keys(tokens).length + " tokens OK");
+          '
+
+      # The demo is only useful if it actually assembles. Building it here
+      # catches a broken preview on the PR rather than at deploy time. No
+      # sibling checkout, so vendor/ is absent and site.mjs exits non-zero by
+      # design; this checks everything up to that point.
+      - name: preview page references only files that exist
+        working-directory: repo
+        run: |
+          node --input-type=module -e '
+            import { readFileSync, existsSync } from "node:fs";
+            const html = readFileSync("preview/index.html", "utf8");
+            const refs = [...html.matchAll(/(?:href|src)="(?!data:|https?:|#)([^"]+)"/g)].map((m) => m[1]);
+            const local = refs.filter((r) => r.startsWith("dist/"));
+            const missing = local.filter((r) => !existsSync(r));
+            if (missing.length) throw new Error("preview references missing: " + missing.join(", "));
+            if (!refs.some((r) => r.startsWith("vendor/"))) {
+              throw new Error("preview no longer loads the vendored Bootstrap");
+            }
+            console.log(refs.length + " local references, " + local.length + " into dist/, all present");
           '

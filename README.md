@@ -2,6 +2,9 @@
 
 One palette, one set of shared widgets, for every thingino web app.
 
+**Live demo: https://thingino.github.io/theme/** — every token and every
+component on one page, rebuilt and redeployed on each push.
+
 The apps grew up separately and each ended up carrying its own inline copy of
 the same CSS. The help-balloon block in the image builder and in verify was
 byte-identical; webflash's copy differed only in whitespace; the same twelve
@@ -93,7 +96,7 @@ theme comes last.
 ```sh
 $EDITOR src/tokens.css
 node scripts/build.mjs
-node scripts/preview.mjs        # http://localhost:8080/preview/index.html
+node scripts/preview.mjs        # http://localhost:8080/
 ```
 
 `preview/index.html` draws every token and every component on one page, with
@@ -101,6 +104,20 @@ the swatches generated from the built `tokens.json`, so it cannot drift from
 what the apps actually get. It borrows Bootstrap and Montserrat from a sibling
 app checkout rather than committing its own copy: the apps own that version
 pin, and a second copy here would be free to drift from it unnoticed.
+
+That same page is what gets published. `scripts/site.mjs` assembles `_site/`
+(the page at the root, `dist/` and `vendor/` beside it) and the `pages`
+workflow deploys it on every push that touches `src/`, `preview/`, `scripts/`
+or `dist/`. The local server maps requests onto the identical layout, so one
+set of relative paths works in both places and the published copy cannot break
+in a way the local one hides:
+
+```sh
+node scripts/site.mjs           # build _site/ exactly as CI will
+```
+
+CI clones `thingino-verify` alongside to borrow the same vendored assets, so
+the deployed demo renders against the Bootstrap an app is really shipping.
 
 Then push the result out to the apps:
 

@@ -1,5 +1,8 @@
 node_modules/
 # Bootstrap and Montserrat for the local preview page. Copied in from a sibling
-# app checkout by scripts/preview.mjs, never committed: the apps own that pin,
+# app checkout by scripts/vendor.mjs, never committed: the apps own that pin,
 # not the theme.
 preview/vendor/
+# The assembled Pages bundle. Built by scripts/site.mjs, on the runner for a
+# deploy and locally when you want to check what will be published.
+_site/
