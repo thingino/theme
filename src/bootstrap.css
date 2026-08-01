@@ -49,7 +49,11 @@ code {
 }
 
 /* ---------- the thingino button ----------
-   Solid accent, dark text. This is the primary action; a page should have one. */
+   Solid accent, dark text: the ARMED state of the primary action (the image
+   builder's Build, verify's Verify). The apps keep it disabled until there is
+   something to act on, so at rest their pages read as all-outline; the solid
+   accent appearing is itself the signal. webflash goes further and uses
+   outline buttons for everything. */
 .btn-thingino {
   background: var(--th-accent);
   border-color: var(--th-accent);
@@ -64,10 +68,10 @@ code {
   color: var(--th-on-accent);
 }
 
-/* The quieter sibling: accent outline that fills on hover, Bootstrap's own
-   btn-outline-* behavior. For primary actions on pages that want less visual
-   weight (webtorrent-viewer's Connect); the solid button above stays what the
-   original three apps ship. */
+/* PREFER THIS ONE. Accent outline that fills on hover, Bootstrap's own
+   btn-outline-* behavior. The family's buttons are outline by default
+   (webtorrent-viewer's Connect wears this); reach for the solid button above
+   only when an armed primary action should shout. */
 .btn-outline-thingino {
   background: transparent;
   border-color: var(--th-accent);

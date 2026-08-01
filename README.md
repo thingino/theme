@@ -64,6 +64,13 @@ The theme does **not** bundle Montserrat. Each app ships its own subsets, via
 `@fontsource` or a vendored `montserrat.css`, so it downloads only the scripts
 it renders. The theme just names the face.
 
+### Buttons
+
+Prefer `.btn-outline-thingino` for actions: the family's pages read
+all-outline at rest. Solid `.btn-thingino` is the *armed* state of a page's
+primary action (the image builder's Build, verify's Verify), disabled until
+there is something to act on; both share the flat grey disabled treatment.
+
 ### Selector policy
 
 Components are written with the `.th-*` name first and the class or id the
