@@ -1,6 +1,6 @@
 {
   "name": "@thingino/theme",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Shared design tokens and CSS for the thingino web apps",
   "license": "MIT",
   "repository": {

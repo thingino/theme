@@ -1,4 +1,4 @@
-/*! thingino theme v0.3.1
+/*! thingino theme v0.3.2
  *
  * GENERATED FILE, DO NOT EDIT. Built from src/tokens.css + src/components.css + src/bootstrap.css + src/alt.css.
  * Source and issues: https://github.com/thingino/theme
@@ -380,12 +380,12 @@ code {
 /* PREFER THIS ONE. Accent outline that fills on hover, Bootstrap's own
    btn-outline-* behavior. The family's buttons are outline by default
    (webtorrent-viewer's Connect wears this); reach for the solid button above
-   only when an armed primary action should shout. */
+   only when an armed primary action should shout. Weight stays the Bootstrap
+   400 every other outline button has; only the armed solid is 600. */
 .btn-outline-thingino {
   background: transparent;
   border-color: var(--th-accent);
   color: var(--th-accent);
-  font-weight: 600;
 }
 
 .btn-outline-thingino:hover,
