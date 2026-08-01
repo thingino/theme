@@ -83,11 +83,15 @@
     </div>
     <div class="card-body">
       <p class="mb-2">Body text at <code>--th-ink</code>, with <code>inline code</code> in the accent.</p>
-      <div class="d-flex flex-wrap gap-2">
+      <div class="d-flex flex-wrap gap-2 align-items-center">
         <span class="badge bg-warning">Writing</span>
         <span class="badge bg-success">Done</span>
         <span class="badge bg-danger">Failed</span>
         <span class="badge bg-secondary">Idle</span>
+        <!-- Provenance badge, as on the image builder: branch @ short sha,
+             Bootstrap's subtle-info as a link to the commit. -->
+        <a class="badge bg-info-subtle text-info border border-info-subtle text-decoration-none"
+           href="https://github.com/thingino/theme" target="_blank" rel="noopener">master @ 1a2b3c4</a>
       </div>
     </div>
     <div class="card-footer d-flex justify-content-end gap-2">
