@@ -70,6 +70,10 @@ Prefer `.btn-outline-thingino` for actions: the family's pages read
 all-outline at rest. Solid `.btn-thingino` is the *armed* state of a page's
 primary action (the image builder's Build, verify's Verify), disabled until
 there is something to act on; both share the flat grey disabled treatment.
+Every button carries a Bootstrap Icons glyph before its label
+(`<i class="bi bi-hammer me-1"></i>Build`); icon-only buttons, like the `?`
+help toggle, skip the label. That is markup convention, not CSS: the theme
+does not bundle Bootstrap Icons, each app vendors its own.
 
 ### Selector policy
 
