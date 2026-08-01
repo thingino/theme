@@ -78,6 +78,29 @@ That is deliberate: it makes adoption a single `<link>` with no markup churn.
 As an app's markup moves to the `.th-*` name, its legacy selector comes out of
 the group here.
 
+### Alt surfaces (the buildscope ramp)
+
+buildscope draws its panels one step darker than the Bootstrap apps do:
+surfaces on `--th-surface-1` (#161b22) with hard `--th-line` borders and an
+8px corner, where stock Bootstrap dark keeps cards on `#212529` with
+translucent borders. Same tokens, different surface mapping. The theme ships
+that look as an opt-in variant, inert inside `thingino-theme.css` until asked
+for:
+
+```html
+<html data-th-alt>
+```
+
+That one attribute moves cards, modals, dropdowns, list groups, toasts,
+inputs and borders onto the ramp. It deliberately does **not** bring
+buildscope's 13px density or typography (those are part of being a data-heavy
+viewer, not part of the ramp), and buttons need nothing: buildscope's `.btn`
+already is `.btn-thingino`. `--bs-body-bg` stays untouched in this layer too;
+every surface is retinted through its own component variable.
+
+Try it on the demo: [thingino.github.io/theme/#alt](https://thingino.github.io/theme/#alt),
+or the toggle at the top of the page.
+
 ### Two rules that will bite
 
 **Never set `--bs-body-bg`.** The apps override the *page* background only,

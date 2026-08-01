@@ -1,4 +1,4 @@
-/*! thingino theme v0.1.0
+/*! thingino theme v0.2.0
  *
  * GENERATED FILE, DO NOT EDIT. Built from src/tokens.css.
  * Source and issues: https://github.com/thingino/theme
@@ -88,4 +88,5 @@
   /* ---------- geometry ---------- */
   --th-radius: 6px;
   --th-radius-lg: 12px;
+  --th-radius-panel: 8px; /* buildscope's panel corner; the alt surfaces use it */
 }

@@ -83,4 +83,5 @@
   /* ---------- geometry ---------- */
   --th-radius: 6px;
   --th-radius-lg: 12px;
+  --th-radius-panel: 8px; /* buildscope's panel corner; the alt surfaces use it */
 }

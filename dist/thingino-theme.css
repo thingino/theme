@@ -1,6 +1,6 @@
-/*! thingino theme v0.1.0
+/*! thingino theme v0.2.0
  *
- * GENERATED FILE, DO NOT EDIT. Built from src/tokens.css + src/components.css + src/bootstrap.css.
+ * GENERATED FILE, DO NOT EDIT. Built from src/tokens.css + src/components.css + src/bootstrap.css + src/alt.css.
  * Source and issues: https://github.com/thingino/theme
  */
 /* thingino theme: design tokens.
@@ -88,6 +88,7 @@
   /* ---------- geometry ---------- */
   --th-radius: 6px;
   --th-radius-lg: 12px;
+  --th-radius-panel: 8px; /* buildscope's panel corner; the alt surfaces use it */
 }
 
 /* thingino theme: shared components, framework-neutral.
@@ -415,4 +416,107 @@ code {
   .card-footer {
     padding: 0.75rem;
   }
+}
+
+/* thingino theme: alt surfaces, the buildscope ramp. OPT-IN.
+ *
+ * buildscope draws its panels one step darker than the Bootstrap apps do:
+ * surfaces on --th-surface-1 (#161b22) with hard --th-line borders and an 8px
+ * corner, where stock Bootstrap dark keeps cards on #212529 with translucent
+ * borders. Same tokens, different surface mapping. This layer makes that look
+ * available to the Bootstrap apps as a variant.
+ *
+ * Opt in by putting `data-th-alt` on <html> (or any ancestor of what should
+ * change). Without the attribute this file is inert, so it ships inside
+ * thingino-theme.css without affecting anyone.
+ *
+ * Ground rules:
+ *  - Everything routes through Bootstrap's own component variables, so shape,
+ *    spacing and behavior stay stock; only the surfaces move.
+ *  - --bs-body-bg stays untouched HERE TOO. Each surface is retinted through
+ *    its own component variable, never the global that everything derives
+ *    from (see bootstrap.css for why that one is radioactive).
+ *  - Only surfaces. buildscope's 13px density and its typography are part of
+ *    being a data-heavy viewer, not part of the ramp, so they are deliberately
+ *    not in this layer. Its .btn is already .btn-thingino, so buttons need
+ *    nothing.
+ *
+ * Bootstrap-only: these rules write --bs-* variables, which mean nothing
+ * without Bootstrap loaded. buildscope itself never loads this; it IS this.
+ */
+
+[data-th-alt] {
+  /* Hard borders everywhere Bootstrap would use its softer translucent grey:
+     hr, table edges, input-group seams, accordion, pagination. */
+  --bs-border-color: var(--th-line);
+  --bs-border-color-translucent: var(--th-line);
+}
+
+/* ---------- cards, the visible difference ---------- */
+[data-th-alt] .card {
+  --bs-card-bg: var(--th-surface-1);
+  --bs-card-border-color: var(--th-line);
+  --bs-card-border-radius: var(--th-radius-panel);
+  --bs-card-inner-border-radius: calc(var(--th-radius-panel) - 1px);
+  /* buildscope's panel head is the panel surface itself, no tinted strip. */
+  --bs-card-cap-bg: transparent;
+}
+
+/* ---------- the other raised surfaces follow the cards ---------- */
+[data-th-alt] .modal {
+  --bs-modal-bg: var(--th-surface-1);
+  --bs-modal-border-color: var(--th-line);
+}
+
+[data-th-alt] .dropdown-menu {
+  --bs-dropdown-bg: var(--th-surface-1);
+  --bs-dropdown-border-color: var(--th-line);
+  --bs-dropdown-link-hover-bg: var(--th-surface-2);
+  --bs-dropdown-link-active-bg: var(--th-surface-2);
+}
+
+[data-th-alt] .list-group {
+  --bs-list-group-bg: var(--th-surface-1);
+  --bs-list-group-border-color: var(--th-line);
+}
+
+[data-th-alt] .toast {
+  --bs-toast-bg: var(--th-surface-1);
+  --bs-toast-border-color: var(--th-line);
+  --bs-toast-header-bg: transparent;
+  --bs-toast-header-border-color: var(--th-hairline);
+}
+
+/* ---------- inputs ----------
+   buildscope sets its search and filter controls on the PAGE color (--th-bg),
+   not the recessed track: inside a panel they read as cut-outs to the page.
+   Focus is its exact treatment: accent border plus a soft accent halo. */
+[data-th-alt] .form-control,
+[data-th-alt] .form-select {
+  background-color: var(--th-bg);
+  border-color: var(--th-line);
+  color: var(--th-ink);
+}
+
+[data-th-alt] .form-control:focus,
+[data-th-alt] .form-select:focus {
+  background-color: var(--th-bg);
+  border-color: var(--th-accent);
+  box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.5);
+  color: var(--th-ink);
+}
+
+[data-th-alt] .form-control::placeholder {
+  color: var(--th-ink-3);
+}
+
+/* ---------- odds and ends on the ramp ---------- */
+[data-th-alt] .table {
+  /* buildscope separates rows with the hairline, one step quieter than the
+     panel border. */
+  --bs-table-border-color: var(--th-hairline);
+}
+
+[data-th-alt] .progress {
+  background-color: var(--th-surface-2);
 }

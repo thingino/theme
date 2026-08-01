@@ -41,6 +41,10 @@
     <code>src/tokens.css</code>, rebuild, reload: whatever moves here moves in
     all four apps.
   </p>
+  <p class="mt-2 mb-0">
+    <button class="btn btn-sm btn-outline-secondary" id="btn-alt" aria-pressed="false">Alt surfaces: off</button>
+    <span class="muted small ms-2">the buildscope ramp: cards on <code>--th-surface-1</code>, hard borders, 8px corners</span>
+  </p>
 
   <h2 class="sec">Tokens</h2>
   <div class="swatches" id="swatches"></div>
@@ -161,6 +165,18 @@ fetch("dist/tokens.json").then(r => r.json()).then(({ version, tokens }) => {
   document.getElementById("tokencount").textContent =
     "tokens.json not readable. Serve the repo over http (node scripts/preview.mjs) rather than opening the file directly.";
 });
+
+// Alt-surfaces toggle: flips data-th-alt on <html>, which is all an app does
+// to adopt the buildscope ramp. #alt in the URL makes the state linkable.
+const altBtn = document.getElementById("btn-alt");
+function setAlt(on) {
+  document.documentElement.toggleAttribute("data-th-alt", on);
+  altBtn.textContent = "Alt surfaces: " + (on ? "on" : "off");
+  altBtn.setAttribute("aria-pressed", String(on));
+  history.replaceState(null, "", on ? "#alt" : location.pathname + location.search);
+}
+altBtn.addEventListener("click", () => setAlt(!document.documentElement.hasAttribute("data-th-alt")));
+if (location.hash === "#alt") setAlt(true);
 
 // Bootstrap present? Its reboot sets a monospace face on <code>; if the
 // stylesheet never loaded, the card has no background at all.
