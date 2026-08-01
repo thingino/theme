@@ -1,4 +1,4 @@
-/*! thingino theme v0.3.0
+/*! thingino theme v0.3.1
  *
  * GENERATED FILE, DO NOT EDIT. Built from src/tokens.css + src/components.css + src/bootstrap.css + src/alt.css.
  * Source and issues: https://github.com/thingino/theme
@@ -389,10 +389,21 @@ code {
 }
 
 .btn-outline-thingino:hover,
-.btn-outline-thingino:focus {
+.btn-outline-thingino:active,
+.btn-outline-thingino.active {
   background: var(--th-accent);
   border-color: var(--th-accent);
   color: var(--th-on-accent);
+}
+
+/* Keyboard focus gets a ring, NOT the fill: a just-clicked button keeps
+   :focus until something else takes it, and filling on plain :focus left
+   Connect sitting stuck-solid after a click. Bootstrap's own outline
+   buttons behave exactly this way (fill on hover/press only). */
+.btn-outline-thingino:focus-visible {
+  border-color: var(--th-accent);
+  box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.5);
+  outline: 0;
 }
 
 /* Disabled reads as clearly OFF: flat muted grey, not a dimmed accent. Bootstrap
