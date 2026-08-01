@@ -109,6 +109,24 @@
   <div class="alert alert-danger py-2 mb-2">danger</div>
   <div class="alert alert-purple py-2 mb-2">purple, the theme's own extra level</div>
 
+  <h2 class="sec">Build state boxes</h2>
+  <p class="muted small">The image builder's build lifecycle: stock alerts composed of themed pieces.
+  Spinner and a Cancel while active; a dismissible record once it is over (failed swaps in
+  alert-danger, done in alert-success with the accent download button).</p>
+  <div class="card"><div class="card-body">
+    <div class="alert alert-secondary mb-2">
+      <span class="spinner-border spinner-border-sm text-warning me-2"></span><strong>Building…</strong> 4m 12s
+      <div class="small muted mt-2">defconfig <code>atom_cam2</code><br>build id <code>b-1a2b3c4d</code></div>
+      <div class="mt-2"><button class="btn btn-outline-secondary btn-sm">Cancel</button></div>
+    </div>
+    <div class="alert alert-secondary alert-dismissible mb-0">
+      <button type="button" class="btn-close btn-close-white" aria-label="Dismiss"></button>
+      <strong>Download window expired</strong>
+      <div class="small muted mt-2">defconfig <code>atom_cam2</code><br>build id <code>b-1a2b3c4d</code></div>
+      <div class="mt-2"><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-repeat me-1"></i>Build again</button></div>
+    </div>
+  </div></div>
+
   <h2 class="sec">Drop zone and file info</h2>
   <div class="card"><div class="card-body">
     <div id="dropzone" class="mb-2">
