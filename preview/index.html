@@ -64,6 +64,7 @@
         <button class="btn btn-outline-thingino"><i class="bi bi-play-fill me-1"></i>Outline primary</button>
         <button class="btn btn-outline-thingino" disabled><i class="bi bi-play-fill me-1"></i>Outline, disabled</button>
         <button class="btn btn-outline-secondary"><i class="bi bi-gear me-1"></i>Secondary</button>
+        <button class="btn btn-outline-secondary btn-attention"><i class="bi bi-usb-plug me-1"></i>Needs a click</button>
         <button class="btn btn-outline-secondary th-help-toggle" id="btn-help"><i class="bi bi-question-lg"></i></button>
         <button class="btn btn-outline-secondary th-help-toggle help-active"><i class="bi bi-question-lg"></i></button>
       </div>
@@ -84,10 +85,11 @@
     <div class="card-body">
       <p class="mb-2">Body text at <code>--th-ink</code>, with <code>inline code</code> in the accent.</p>
       <div class="d-flex flex-wrap gap-2 align-items-center">
-        <span class="badge bg-warning">Writing</span>
+        <span class="badge bg-warning"><span class="spinner-border spinner-border-sm me-1" role="status"></span>Writing</span>
         <span class="badge bg-success">Done</span>
         <span class="badge bg-danger">Failed</span>
         <span class="badge bg-secondary">Idle</span>
+        <span class="badge bg-purple">Important</span>
         <!-- Provenance badge, as on the image builder: branch @ short sha,
              Bootstrap's subtle-info as a link to the commit. -->
         <a class="badge bg-info-subtle text-info border border-info-subtle text-decoration-none"
@@ -129,15 +131,40 @@
 <span class="dim">12:00:09</span> <span class="error">write failed: LIBUSB_ERROR_OVERFLOW</span>
 <span class="dim">12:00:09</span> <span class="debug">bulk out stalled, resetting endpoint</span></div>
 
-  <h2 class="sec">Help balloon</h2>
-  <p class="muted small">Rendered pinned open below; in an app it follows the pointer over any <code>[data-help]</code> element while help is on.</p>
-  <div style="position:relative; height:110px;">
+  <h2 class="sec">Progress</h2>
+  <div class="card"><div class="card-body">
+    <div class="progress mb-1">
+      <div class="progress-bar progress-bar-striped progress-bar-animated th-progress-fill" style="width:65%"></div>
+    </div>
+    <div class="th-progress-label"><span class="th-num">6.5 MiB</span> of <span class="th-num">10.0 MiB</span> written</div>
+  </div></div>
+
+  <h2 class="sec">Table</h2>
+  <div class="card"><div class="card-body">
+    <table class="table table-sm mb-0">
+      <thead><tr><th>Build</th><th>Branch</th><th class="text-end">Size</th><th>State</th></tr></thead>
+      <tbody>
+        <tr><td><code>a1b2c3d4</code></td><td>master</td><td class="text-end th-num">8388608</td><td><span class="badge bg-success">Done</span></td></tr>
+        <tr><td><code>e5f6a7b8</code></td><td>wip-t23</td><td class="text-end th-num">524288</td><td><span class="badge bg-warning"><span class="spinner-border spinner-border-sm me-1" role="status"></span>Building</span></td></tr>
+        <tr><td><code>c9d0e1f2</code></td><td>master</td><td class="text-end th-num">-</td><td><span class="badge bg-danger">Failed</span></td></tr>
+      </tbody>
+    </table>
+  </div></div>
+
+  <h2 class="sec">Help balloon and popover</h2>
+  <p class="muted small">Pinned open below. The light balloon is the opt-in hint that follows <code>[data-help]</code> hovers; the dark popover is the in-place confirmation (admin's per-build actions), with its dismiss under <code>inset-inline-end</code> so RTL needs no extra rules.</p>
+  <div style="position:relative; height:130px;">
     <div class="help-balloon show" style="position:absolute; top:18px; left:12px;">
       The balloon is deliberately light on the dark UI, so an opt-in hint never
       reads as part of the app's own chrome.
     </div>
     <div class="help-balloon show above" style="position:absolute; top:18px; left:320px;">
       Flipped above its anchor: the tail moves to the bottom edge.
+    </div>
+    <div class="th-popover" style="position:absolute; top:18px; left:630px;">
+      <button type="button" class="th-popover-x" aria-label="Dismiss">&times;</button>
+      <div class="th-popover-msg">Delete build <code>a1b2c3d4</code>?</div>
+      <div class="th-popover-row"><button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash me-1"></i>Delete</button></div>
     </div>
   </div>
 

@@ -30,10 +30,13 @@ const BUNDLES = {
   /* Framework-neutral: tokens + shared widgets. buildscope's tier. */
   "thingino-base.css": ["tokens.css", "components.css"],
   /* Everything, for the Bootstrap apps: one <link>, one file to vendor. The
-   * alt layer rides along inert; `data-th-alt` on <html> switches it on. */
-  "thingino-theme.css": ["tokens.css", "components.css", "bootstrap.css", "alt.css"],
+   * alt layer rides along inert (`data-th-alt` on <html> switches it on), and
+   * so does RTL (inert until something sets dir="rtl"). */
+  "thingino-theme.css": ["tokens.css", "components.css", "bootstrap.css", "alt.css", "rtl.css"],
   /* Opt-in bare-name compatibility. Deliberately its own file. */
   "thingino-aliases.css": ["aliases.css"],
+  /* Standalone RTL for apps not on the full bundle. */
+  "thingino-rtl.css": ["rtl.css"],
 };
 
 function banner(parts) {

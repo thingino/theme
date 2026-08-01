@@ -17,9 +17,10 @@ Change a color here, rebuild, and the apps pick it up on their next sync.
 | File | What it is | Depends on |
 |---|---|---|
 | `src/tokens.css` | Every color, face and radius, as `--th-*` custom properties. Declares only, selects nothing. | nothing |
-| `src/components.css` | Shared widgets: log console, drop zone, file info, footer, help balloons. | tokens |
+| `src/components.css` | Shared widgets: log console (with scrollbars), drop zone, file and device info, footer, help balloons, confirmation popover, the 720px shell. | tokens |
 | `src/bootstrap.css` | Skins a stock Bootstrap 5.3 dark build into the thingino look. | tokens, Bootstrap |
 | `src/aliases.css` | Opt-in bare-name aliases (`--bg` to `--th-bg`) for buildscope. | tokens |
+| `src/rtl.css` | Shared `[dir="rtl"]` mirroring: the utility flips image-builder and webflash each carried a copy of. Inert on LTR pages. | Bootstrap utilities |
 
 `node scripts/build.mjs` concatenates those into `dist/`:
 
@@ -29,6 +30,7 @@ Change a color here, rebuild, and the apps pick it up on their next sync.
 | `thingino-base.css` | tokens + components | apps with no framework |
 | `thingino-tokens.css` | tokens | palette only |
 | `thingino-aliases.css` | aliases | buildscope, on top of the above |
+| `thingino-rtl.css` | rtl | standalone; already embedded in `thingino-theme.css` |
 | `tokens.json` | the same values for JS | charts, React, anything computing a color |
 
 `dist/` is committed so an app can vendor a single file without needing node.

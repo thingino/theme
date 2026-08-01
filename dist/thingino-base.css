@@ -1,4 +1,4 @@
-/*! thingino theme v0.3.2
+/*! thingino theme v0.4.0
  *
  * GENERATED FILE, DO NOT EDIT. Built from src/tokens.css + src/components.css.
  * Source and issues: https://github.com/thingino/theme
@@ -153,21 +153,29 @@
   color: var(--th-ink-4);
 }
 
-/* ---------- file info line ----------
-   Label/value pair under a picked file: grey label, accent monospace value. */
+/* ---------- file / device info lines ----------
+   Label/value pairs: grey label, accent monospace value. webflash draws the
+   connected device the same way it draws a picked file. */
 .th-file-info,
-.file-info {
+.file-info,
+.device-info {
   font-size: 0.85rem;
   color: var(--th-ink-2);
 }
 
+.device-info {
+  font-size: 0.9rem;
+}
+
 .th-file-info .label,
-.file-info .label {
+.file-info .label,
+.device-info .label {
   color: var(--th-ink-2);
 }
 
 .th-file-info .value,
-.file-info .value {
+.file-info .value,
+.device-info .value {
   color: var(--th-accent);
   font-family: var(--th-mono);
 }
@@ -206,6 +214,46 @@ input[type="file"] {
   color: var(--th-accent);
   display: block;
   margin-bottom: 0.4rem;
+}
+
+/* Console scrollbars, buildscope's treatment scoped to the element that
+   scrolls: a quiet rounded thumb on the recessed track instead of the
+   browser default. */
+.th-console::-webkit-scrollbar,
+#log::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.th-console::-webkit-scrollbar-thumb,
+#log::-webkit-scrollbar-thumb {
+  background: var(--th-line);
+  border-radius: 5px;
+  border: 2px solid var(--th-track);
+}
+
+.th-console::-webkit-scrollbar-track,
+#log::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- the centered shell ----------
+   The single card every app is: full width up to the family's 720px. The
+   share viewer widens its own to 960px for 16:9 video. */
+.th-shell,
+.builder-card,
+.verify-card,
+.flasher-card {
+  width: 100%;
+  max-width: var(--th-shell-width, 720px);
+}
+
+/* ---------- numbers that column up ----------
+   buildscope sets tabular figures on every numeric readout; this is that
+   convention as a class. */
+.th-num {
+  font-family: var(--th-mono);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ---------- footer / version line ----------
@@ -305,4 +353,83 @@ body.help-on [data-help] {
   border-top: 0;
   border-right: 1px solid var(--th-balloon-line);
   border-bottom: 1px solid var(--th-balloon-line);
+}
+
+/* ---------- confirmation popover ----------
+   The help balloon's dark twin, from the admin page: opens against the
+   element that was clicked, so the action button is a few pixels away
+   instead of a browser confirm() at the top of the window. Positioning is
+   the app's JS; the arrow's inline offset rides a custom property. */
+.th-popover,
+.cpop {
+  position: fixed;
+  z-index: 1080;
+  max-width: min(20rem, calc(100vw - 1rem));
+  background: var(--th-surface-1);
+  border: 1px solid var(--th-line);
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  padding: 0.55rem 0.65rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #dee2e6;
+}
+
+.th-popover-row,
+.cpop-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.45rem;
+}
+
+/* Dismiss sits in the top corner, out of the way of the action button; last
+   in the DOM so pointer and tab order reach the action first. inset-inline-end
+   puts it top-right under LTR and top-left under RTL with no extra rules. */
+.th-popover-msg,
+.cpop-msg {
+  padding-inline-end: 1.1rem;
+}
+
+.th-popover-x,
+.cpop-x {
+  position: absolute;
+  top: 0.1rem;
+  inset-inline-end: 0.2rem;
+  border: 0;
+  background: transparent;
+  color: var(--th-ink-2);
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.1rem 0.25rem;
+  cursor: pointer;
+}
+
+.th-popover-x:hover,
+.cpop-x:hover {
+  color: #dee2e6;
+}
+
+.th-popover::after,
+.cpop::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  background: var(--th-surface-1);
+  border-left: 1px solid var(--th-line);
+  border-top: 1px solid var(--th-line);
+  transform: rotate(45deg);
+  top: -5px;
+  left: var(--th-popover-arrow, var(--cpop-arrow, 1rem));
+}
+
+.th-popover.above::after,
+.cpop.above::after {
+  top: auto;
+  bottom: -5px;
+  border-left: 0;
+  border-top: 0;
+  border-right: 1px solid var(--th-line);
+  border-bottom: 1px solid var(--th-line);
 }
