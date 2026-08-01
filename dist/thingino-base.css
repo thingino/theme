@@ -5,7 +5,7 @@
  */
 /* thingino theme: design tokens.
  *
- * The single source of truth for every colour, face and radius the thingino
+ * The single source of truth for every color, face and radius the thingino
  * web apps draw with. Nothing here selects anything or paints anything: it
  * only declares custom properties, so this file is safe to load first in any
  * app, framework or not.
@@ -15,7 +15,7 @@
  * get the bare names pointed at these, without touching their own rules.
  *
  * The surfaces are GitHub's dark ramp, which is where these apps started; the
- * accent is `darkorange`, spelled as its hex here (the CSS named colour
+ * accent is `darkorange`, spelled as its hex here (the CSS named color
  * `darkorange` is exactly #ff8c00, so old rules using the keyword and new ones
  * using the token render identically).
  */
@@ -41,7 +41,7 @@
   --th-accent-hover: #ff9e2c;
   --th-on-accent: #0d1117;    /* text drawn ON the accent */
 
-  /* Link colour for the shared footer. This is Bootstrap's `--bs-secondary`,
+  /* Link color for the shared footer. This is Bootstrap's `--bs-secondary`,
      which its dark mode does NOT override, so it is pinned here rather than
      inherited: apps without Bootstrap must match it. */
   --th-link: #6c757d;
@@ -54,9 +54,9 @@
   --th-crit: #f85149;
 
   /* ---------- categorical data palette ----------
-     For charts and format/type chips. Validated for the three common colour
+     For charts and format/type chips. Validated for the three common color
      vision deficiencies against --th-surface-1. Use in listed order; do not
-     reach for the status colours above to mean "category N", they carry a
+     reach for the status colors above to mean "category N", they carry a
      meaning of their own. */
   --th-data-blue: #3987e5;
   --th-data-orange: #d95926;

@@ -66,7 +66,7 @@ code {
 
 /* Disabled reads as clearly OFF: flat muted grey, not a dimmed accent. Bootstrap
    would only fade the fill, which on a bright accent still reads as clickable.
-   `opacity:1` undoes that fade so the flat colours are what shows.
+   `opacity:1` undoes that fade so the flat colors are what shows.
    `.th-off` is the same treatment for buttons that are not .btn-thingino (a
    solid btn-warning, say), which otherwise dim to a slightly darker yellow. */
 .btn-thingino:disabled,

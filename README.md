@@ -10,13 +10,13 @@ the same CSS. The help-balloon block in the image builder and in verify was
 byte-identical; webflash's copy differed only in whitespace; the same twelve
 hex values were retyped in four places. This repo is where those live now.
 
-Change a colour here, rebuild, and the apps pick it up on their next sync.
+Change a color here, rebuild, and the apps pick it up on their next sync.
 
 ## Layout
 
 | File | What it is | Depends on |
 |---|---|---|
-| `src/tokens.css` | Every colour, face and radius, as `--th-*` custom properties. Declares only, selects nothing. | nothing |
+| `src/tokens.css` | Every color, face and radius, as `--th-*` custom properties. Declares only, selects nothing. | nothing |
 | `src/components.css` | Shared widgets: log console, drop zone, file info, footer, help balloons. | tokens |
 | `src/bootstrap.css` | Skins a stock Bootstrap 5.3 dark build into the thingino look. | tokens, Bootstrap |
 | `src/aliases.css` | Opt-in bare-name aliases (`--bg` to `--th-bg`) for buildscope. | tokens |
@@ -29,7 +29,7 @@ Change a colour here, rebuild, and the apps pick it up on their next sync.
 | `thingino-base.css` | tokens + components | apps with no framework |
 | `thingino-tokens.css` | tokens | palette only |
 | `thingino-aliases.css` | aliases | buildscope, on top of the above |
-| `tokens.json` | the same values for JS | charts, React, anything computing a colour |
+| `tokens.json` | the same values for JS | charts, React, anything computing a color |
 
 `dist/` is committed so an app can vendor a single file without needing node.
 CI runs `--check` and fails if `dist/` is out of step with `src/`.
@@ -146,6 +146,6 @@ each app rather than served from one origin: a shared stylesheet loaded
 cross-origin would be blocked outright, and would put a network dependency in
 front of a firmware verifier.
 
-## Licence
+## License
 
 MIT.

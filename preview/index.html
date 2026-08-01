@@ -153,7 +153,7 @@ fetch("dist/tokens.json").then(r => r.json()).then(({ version, tokens }) => {
     box.append(el);
   }
   document.getElementById("tokencount").textContent =
-    n + " colour tokens, theme v" + version + ". Faces: " +
+    n + " color tokens, theme v" + version + ". Faces: " +
     getComputedStyle(document.documentElement).getPropertyValue("--th-sans").trim();
   const vn = document.getElementById("version-num");
   vn.textContent = "v" + version + "-" + vn.dataset.sha;

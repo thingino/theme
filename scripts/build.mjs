@@ -54,7 +54,7 @@ for (const [out, parts] of Object.entries(BUNDLES)) {
 }
 
 /* tokens.json: the same values in a form JS can read, so a canvas chart or a
- * React app picks colours from the one source instead of re-typing hexes.
+ * React app picks colors from the one source instead of re-typing hexes.
  * Values are all literals (no var() indirection), so they are usable as-is. */
 const tokensCss = read("tokens.css");
 const tokens = {};
