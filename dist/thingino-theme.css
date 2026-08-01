@@ -1,4 +1,4 @@
-/*! thingino theme v0.2.0
+/*! thingino theme v0.3.0
  *
  * GENERATED FILE, DO NOT EDIT. Built from src/tokens.css + src/components.css + src/bootstrap.css + src/alt.css.
  * Source and issues: https://github.com/thingino/theme
@@ -373,6 +373,24 @@ code {
   color: var(--th-on-accent);
 }
 
+/* The quieter sibling: accent outline that fills on hover, Bootstrap's own
+   btn-outline-* behavior. For primary actions on pages that want less visual
+   weight (webtorrent-viewer's Connect); the solid button above stays what the
+   original three apps ship. */
+.btn-outline-thingino {
+  background: transparent;
+  border-color: var(--th-accent);
+  color: var(--th-accent);
+  font-weight: 600;
+}
+
+.btn-outline-thingino:hover,
+.btn-outline-thingino:focus {
+  background: var(--th-accent);
+  border-color: var(--th-accent);
+  color: var(--th-on-accent);
+}
+
 /* Disabled reads as clearly OFF: flat muted grey, not a dimmed accent. Bootstrap
    would only fade the fill, which on a bright accent still reads as clickable.
    `opacity:1` undoes that fade so the flat colors are what shows.
@@ -380,6 +398,8 @@ code {
    solid btn-warning, say), which otherwise dim to a slightly darker yellow. */
 .btn-thingino:disabled,
 .btn-thingino.disabled,
+.btn-outline-thingino:disabled,
+.btn-outline-thingino.disabled,
 .th-off:disabled,
 .th-off.disabled {
   background: transparent !important;
