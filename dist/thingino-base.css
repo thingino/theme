@@ -1,4 +1,4 @@
-/*! thingino theme v0.4.0
+/*! thingino theme v0.4.1
  *
  * GENERATED FILE, DO NOT EDIT. Built from src/tokens.css + src/components.css.
  * Source and issues: https://github.com/thingino/theme
@@ -353,6 +353,15 @@ body.help-on [data-help] {
   border-top: 0;
   border-right: 1px solid var(--th-balloon-line);
   border-bottom: 1px solid var(--th-balloon-line);
+}
+
+/* ---------- result box titles ----------
+   The bold first line of a verdict or state alert. verify weighs it 600 via
+   .verdict-title where the image builder reaches for <strong> (700); this is
+   the shared name for the 600 treatment. */
+.th-alert-title,
+.verdict-title {
+  font-weight: 600;
 }
 
 /* ---------- confirmation popover ----------

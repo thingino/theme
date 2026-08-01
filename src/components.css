@@ -262,6 +262,15 @@ body.help-on [data-help] {
   border-bottom: 1px solid var(--th-balloon-line);
 }
 
+/* ---------- result box titles ----------
+   The bold first line of a verdict or state alert. verify weighs it 600 via
+   .verdict-title where the image builder reaches for <strong> (700); this is
+   the shared name for the 600 treatment. */
+.th-alert-title,
+.verdict-title {
+  font-weight: 600;
+}
+
 /* ---------- confirmation popover ----------
    The help balloon's dark twin, from the admin page: opens against the
    element that was clicked, so the action button is a few pixels away
