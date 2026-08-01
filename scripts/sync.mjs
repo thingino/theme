@@ -52,6 +52,11 @@ const TARGETS = [
       ["thingino-aliases.css", "viewer/src/thingino-aliases.css"],
     ],
   },
+  {
+    name: "webtorrent-viewer",
+    repo: "webtorrent-viewer",
+    files: [["thingino-theme.css", "web/vendor/thingino-theme.css"]],
+  },
 ];
 
 const write = process.argv.includes("--write");
