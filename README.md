@@ -77,6 +77,23 @@ Every button carries a Bootstrap Icons glyph before its label
 help toggle, skip the label. That is markup convention, not CSS: the theme
 does not bundle Bootstrap Icons, each app vendors its own.
 
+### Fonts race the CSS chain
+
+Browsers request font files only after parsing the stylesheet that names
+them, so on a cold load icons sit invisible (`bootstrap-icons` is
+`font-display: block`) and text paints in the fallback face for seconds.
+Preload the woff2s your first paint uses:
+
+```html
+<link rel="preload" href="vendor/fonts/bootstrap-icons.woff2?<hash>" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="vendor/fonts/montserrat-400.woff2" as="font" type="font/woff2" crossorigin>
+```
+
+The href must match the CSS `url()` exactly, query string included, or the
+browser fetches the font twice; font fetches are CORS-mode even same-origin,
+hence `crossorigin`. None of the original apps preload yet; webtorrent-viewer
+is the reference.
+
 ### Selector policy
 
 Components are written with the `.th-*` name first and the class or id the
