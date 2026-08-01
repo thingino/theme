@@ -127,7 +127,10 @@ node scripts/sync.mjs --write   # copy it in; review and commit in each repo
 ```
 
 `sync.mjs` only copies files. It never commits and never pushes, so a theme
-change lands in each app as a reviewable diff on your own schedule. If that
+change lands in each app as a reviewable diff on your own schedule. Each copy
+gets the theme commit appended to its banner (`· thingino/theme@<sha>`), so a
+vendored file always answers "which theme is this?" on its own, and whether an
+app is behind is one line to check. If that
 ever gets tedious, the natural upgrade is a workflow here that opens the four
 PRs itself.
 
